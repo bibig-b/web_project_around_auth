@@ -1,0 +1,154 @@
+.content__profile {
+  max-width: 880px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto 50px;
+  padding: 0 16px;
+  gap: 32px;
+}
+
+.profile {
+  width: 100%;
+  height: 77px;
+  display: grid;
+  grid-template-areas:
+    "name  edit"
+    "role role";
+  gap: 16px 12px;
+  align-items: baseline;
+  justify-content: flex-start;
+  align-self: center;
+}
+
+.profile__name {
+  grid-area: name;
+  font-size: 42px;
+  line-height: 48px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.profile__edit {
+  grid-area: edit;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  background-image: url("../imagens/Edit_Button.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+}
+
+.profile__edit:hover {
+  opacity: 0.6;
+}
+
+.profile__role {
+  grid-area: role;
+  max-width: 415px;
+  width: 100%;
+  font-size: 18px;
+  line-height: 100%;
+  font-weight: 400px;
+  margin-top: 16px;
+  margin: 0;
+}
+
+.profile__add {
+  max-width: 150px;
+  width: 100%;
+  height: 50px;
+  background-color: transparent;
+  background-image: url("../imagens/Add_Button.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  margin: 0 auto;
+  align-self: center;
+}
+
+.profile__add:hover {
+  opacity: 0.6;
+}
+
+.content__avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+}
+.content__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile__avatar-edit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.content__avatar-container:hover .profile__avatar-edit {
+  background-image: url("../imagens/lapis.png");
+  background-size: 26px 26px;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 1;
+}
+
+@media (max-width: 544px) {
+  .content__profile {
+    max-width: 282px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile {
+    max-width: 282px;
+    width: 100%;
+    height: 50px;
+    justify-content: center;
+    gap: 8px 12px;
+  }
+
+  .profile__name {
+    margin: 0;
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .profile__edit {
+    width: 18px;
+    height: 18px;
+  }
+
+  .profile__role {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .profile__add {
+    background-image: url("../imagens/Add_Button-mobile.png");
+    max-width: 282px;
+    height: 50px;
+    display: block;
+    margin: 20px auto 0;
+  }
+}
