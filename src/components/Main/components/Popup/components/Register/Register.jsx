@@ -1,6 +1,6 @@
 import React from "react";
-import './Register.css';
 import { Link } from 'react-router-dom';
+import Header from "../../../../../Header/Header";
 
 function Register({ onRegister }) {
   const [formData, setFormData] = React.useState({
@@ -23,6 +23,7 @@ function Register({ onRegister }) {
 
   return (
     <div className="register">
+        <Header/>
       <form className="register__form" onSubmit={handleSubmit}>
         <h2 className="register__title">Registrar</h2>
         
@@ -50,9 +51,9 @@ function Register({ onRegister }) {
           Inscreva-se
         </button>
         
-        <p className="register__text">
-          Já é membro? <Link to="/signin" className="register__link">Faça login aqui!</Link>
-        </p>
+        <a className="register__link" href="/signin">
+          Já é membro? Faça o login aqui!
+        </a>
       </form>
     </div>
   );

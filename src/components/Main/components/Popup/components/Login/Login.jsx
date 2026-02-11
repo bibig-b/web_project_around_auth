@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import './Login.css';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Header from '../../../../../Header/Header';
 
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ function Login({ onLogin }) {
 
   return (
     <div className="login">
+    <Header/>
       <form className="login__form" onSubmit={handleSubmit}>
         <h2 className="login__title">Entrar</h2>
         
@@ -49,9 +51,9 @@ function Login({ onLogin }) {
           Entrar
         </button>
         
-        <p className="login__text">
-          Ainda não é membro? <a href="/signup" className="login__link">Inscreva-se aqui!</a>
-        </p>
+        <Link className="login__link" to="/signup">
+         Ainda não é um membro? Inscreva-se aqui!
+        </Link>
       </form>
     </div>
   );

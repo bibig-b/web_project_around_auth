@@ -1,16 +1,57 @@
-import {Routes,Route,Navigate} from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import {Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
 import viteLogo from '/vite.svg'
 import Header from './Header/Header.jsx';
 import Main from './Main/Main.jsx';
 import Footer from './Footer/Footer.jsx';
+import Login from './Main/components/Popup/components/Login/Login.jsx';
+import Register from './Main/components/Popup/components/Register/Register.jsx';  
 import{ api }from '../utils/api.js';
 import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
+import ProtectedRoute from './Main/components/Popup/components/ProtectedRoute/ProtectedRoute.jsx';
+import { checkToken } from '../utils/auth.js';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [popup,setPopup] = useState(null);
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+ 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    localStorage.removeItem('jwt');
+    navigate('/signin', { replace: true });
+  }
+  const handlCheckToken =  useCallback(async() => {
+    const token = localStorage.getItem('jwt');
+      if (!token) { 
+        setLoggedIn(false);
+        return;
+      }
+      try {
+        const res = await checkToken(token);
+        if (res) {
+          setLoggedIn(true);
+          setUserEmail(res.data.email);
+        } else {
+          setLoggedIn(false);
+        }
+      } catch (err) {
+        console.error('Erro ao verificar token:', err);
+        setLoggedIn(false);
+      }
+  },[]);
+
+  useEffect(() => {
+    handlCheckToken();
+  }, [handlCheckToken]);
+
+
 
   useEffect(() => {
     api.getUserInfo()
@@ -101,24 +142,35 @@ async function handleAddPlaceSubmit(cardData) {
     console.log(err);
   }
 }
+          
+    return (
+      <CurrentUserContext.Provider value={{currentUser, handleUpdateUser, handleUpdateAvatar}}>
+        <div className='page'>
+          <Routes>
+            <Route path="/signin" element={<Login />} />
+            <Route path="/signup" element={<Register />} />
+            <Route path="*" element={
+              <ProtectedRoute loggedIn={loggedIn}>
+                <>
+                  <Header />
+                  <Main 
+                    cards={cards}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                    onAddPlaceSubmit={handleAddPlaceSubmit}
+                    popup={popup}
+                    onOpenPopup={handleOpenPopup}
+                    onClosePopup={handleClosePopup}
+                  />
+                  <Footer/>
+                </>
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </div>
+      </CurrentUserContext.Provider>
+    );
 
-  return (
-    <CurrentUserContext.Provider value={{currentUser, handleUpdateUser, handleUpdateAvatar}}>
-      <div className='page'>
-      <Header />
-      <Main 
-        cards={cards}
-       onCardLike={handleCardLike}
-       onCardDelete={handleCardDelete}
-       onAddPlaceSubmit={handleAddPlaceSubmit}
-       popup={popup}
-       onOpenPopup={handleOpenPopup}
-       onClosePopup={handleClosePopup}
-       />
-      <Footer/>
-    </div>
-    </CurrentUserContext.Provider>
-  )
 }
 
 export default App

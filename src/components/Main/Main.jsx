@@ -9,6 +9,8 @@ import { api }from '../../utils/api.js';
 import {useContext} from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 
+
+
 export default function Main({
   cards,
   onCardLike,

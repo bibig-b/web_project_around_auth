@@ -1,0 +1,33 @@
+.infotooltip {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 430px;
+    height: 330px;
+    margin: 0, auto;
+    background-color: #fff;
+    border-radius: 10px;
+    z-index: 3;
+}
+
+.infotooltip__close {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+}
+
+@media screen and (max-width: 544px) {
+    .infotooltip {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+
+    .infotooltip__close {
+        top: 50%;
+        right: 50%;
+    }
+}
