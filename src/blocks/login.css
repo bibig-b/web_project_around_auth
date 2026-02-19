@@ -16,7 +16,8 @@
 }
 
 .login__input{
-    width: 100%;
+    width: 358px;
+    height: 27px;
     border: none;
     margin-top: 30px;
     padding-bottom: 5px;
@@ -31,8 +32,9 @@
 }
 
 .login__button {
-    width: 100%;
+    width: 358px;
     height: 50px;
+    margin-top: 200px; ;
     background-color: #fff;
     color: #000;
     border: none;
@@ -48,7 +50,6 @@
    .login__link {
     display: block;
     color: #fff;
-    margin-top: 20px;
     text-decoration: none;
     font-size: 14px;
     text-align: center;

@@ -1,13 +1,18 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Header from '../../../../../Header/Header';
+import { Link, useNavigate } from 'react-router-dom';
+import InfoTooltip from '../InfoTooltip/InfoTooltip.jsx';
+import Header from '../../../../../Header/Header.jsx';
 
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-
+  const navigate = useNavigate();
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [infoTooltipStatus, setInfoTooltipStatus] = useState('');
+  const [infoTooltipMessage, setInfoTooltipMessage] = useState('');
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -16,12 +21,35 @@ function Login({ onLogin }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    onLogin(formData);
+    try {
+      if (!formData.email || !formData.password) {
+        throw new Error('Email e senha são obrigatórios');
+      }
+      await onLogin(formData); 
+
+      setInfoTooltipStatus('success');
+      setInfoTooltipMessage('Login bem-sucedido!');
+      setIsInfoTooltipOpen(true);
+    }
+    catch (err) {
+      console.error('Erro no login:', err);
+      setInfoTooltipStatus('error');
+      setInfoTooltipMessage('Falha no login. Verifique suas credenciais e tente novamente.');
+      setIsInfoTooltipOpen(true);
+    }
+  };
+
+  const handleCloseInfoTooltip = () => {
+    setIsInfoTooltipOpen(false);
+    if (infoTooltipStatus === 'success') {
+      navigate('/');
+    }
   };
 
   return (
+    <>
     <div className="login">
     <Header/>
       <form className="login__form" onSubmit={handleSubmit}>
@@ -55,8 +83,18 @@ function Login({ onLogin }) {
          Ainda não é um membro? Inscreva-se aqui!
         </Link>
       </form>
+      </div>
+      {isInfoTooltipOpen && (
+        <div className="popup__overlay">
+        <InfoTooltip
+      isOpen={isInfoTooltipOpen}
+      status={infoTooltipStatus}
+      message={infoTooltipMessage}
+      onClose={ handleCloseInfoTooltip}
+    />
     </div>
+    )}
+    </>
   );
-}
-
+ };
 export default Login;

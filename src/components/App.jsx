@@ -1,4 +1,4 @@
-import {Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import {Routes, Route, Navigate, useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import viteLogo from '/vite.svg'
 import Header from './Header/Header.jsx';
@@ -9,7 +9,8 @@ import Register from './Main/components/Popup/components/Register/Register.jsx';
 import{ api }from '../utils/api.js';
 import { CurrentUserContext } from './../contexts/CurrentUserContext.js';
 import ProtectedRoute from './Main/components/Popup/components/ProtectedRoute/ProtectedRoute.jsx';
-import { checkToken } from '../utils/auth.js';
+import {checkToken, login, register} from '../utils/auth.js';
+
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -21,6 +22,37 @@ function App() {
   const [userEmail, setUserEmail] = useState('');
  
   const navigate = useNavigate();
+
+const handleLogin = async (formData) => { console.log('handleLogin chamada com:', formData);
+  try {
+    setIsLoading(true);
+    const res = await login(formData);
+    console.log('Resposta do login:', res);
+    if (res.token) {
+      localStorage.setItem('jwt', res.token);
+      setLoggedIn(true);
+      setUserEmail(formData.email);
+      navigate('/', { replace: true });
+    } 
+  } catch (err) {
+    console.error('Erro no login:', err);
+  } finally {
+    setIsLoading(false);
+  }
+};
+  
+const handleRegister = async (formData) => {
+  try {
+    setIsLoading(true);
+    const res = await register(formData);
+    console.log('Resposta do registro:', res);
+    navigate('/signin');
+  } catch (err) {
+    console.error('Erro no registro:', err);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleLogout = () => {
     setLoggedIn(false);
@@ -147,12 +179,13 @@ async function handleAddPlaceSubmit(cardData) {
       <CurrentUserContext.Provider value={{currentUser, handleUpdateUser, handleUpdateAvatar}}>
         <div className='page'>
           <Routes>
-            <Route path="/signin" element={<Login />} />
-            <Route path="/signup" element={<Register />} />
+            <Route path="/signin" element={<Login  onLogin={handleLogin}/>} />
+            <Route path="/signup" element={<Register onRegister={handleRegister} />} />
             <Route path="*" element={
               <ProtectedRoute loggedIn={loggedIn}>
                 <>
-                  <Header />
+                  <Header userEmail={userEmail}
+                  onSignOut= {handleLogout}/>
                   <Main 
                     cards={cards}
                     onCardLike={handleCardLike}

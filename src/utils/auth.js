@@ -1,6 +1,7 @@
 const BASE_URL = 'https://se-register-api.en.tripleten-services.com/v1';
 
-export const register = (email, password) => {
+export const register = (formData) => {
+  const { email, password } = formData;
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
@@ -16,7 +17,8 @@ export const register = (email, password) => {
   });
 };
 
-export const login = (email, password) => {
+export const login = (formData) => {
+  const { email, password } = formData;
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {

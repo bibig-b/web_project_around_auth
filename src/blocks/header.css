@@ -1,16 +1,21 @@
 .header {
   max-width: 880px;
   width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
   margin: 0 auto;
   padding-top: 45px;
+
+}
+
+.header__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 41px;
 }
 
 .header__logo {
   width: 173px;
-  margin-bottom: 41px;
+  margin-bottom: 33px;
 }
 
 .header__line {
@@ -18,18 +23,26 @@
   width: 100%;
 }
 
+
 .header__email {
   color: #fff;
   font-size: 18px;
 }
 
-.header__inbutton{
+.header__in-button {
+  display: flex;
+ align-items: center;
+  gap: 24px;
+  background-color: #000;
+  border: none;
   font-size: 18px;
   color: #fff;
   text-decoration: none;
+  cursor: pointer;
+
 }
 
-.header__inbutton:hover{
+.header__in-button:hover{
   opacity: 0.8;
 }
 
@@ -38,17 +51,8 @@
   color: #000;
   border: none;
   font-size: 18px;
-  cursor: pointer;
 }
 .header__btn-logout:hover {
   opacity: 0.8;
 } 
 
-.menu__mobile {
-  display: none;
-  cursor: pointer;
-}
-
-.menu__mobile:hover {
-  opacity: 0.8;
-}

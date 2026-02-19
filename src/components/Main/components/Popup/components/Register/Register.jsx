@@ -51,9 +51,9 @@ function Register({ onRegister }) {
           Inscreva-se
         </button>
         
-        <a className="register__link" href="/signin">
+        <Link className="register__link" to="/signin">
           Já é membro? Faça o login aqui!
-        </a>
+        </Link>
       </form>
     </div>
   );
